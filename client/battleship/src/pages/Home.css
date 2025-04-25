@@ -1,0 +1,74 @@
+/* App.css */
+
+.home-container {
+  background: #f7f9fc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.home-content {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.home-title {
+  color: #00264d;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.home-subtitle {
+  color: #00264d;
+  font-size: 1.25rem;
+  margin-bottom: 30px;
+}
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  color: white;
+}
+
+.btn-game,
+.btn-create {
+  background: #00264d;
+}
+
+.btn-rules {
+  background: #00509e;
+}
+
+.btn-scores {
+  background: #c82333;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.image-wrapper {
+  display: flex;
+  justify-content: center;
+}
+
+.home-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
