@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./AllGames.css";
 
 export default function AllGames() {
   const [games, setGames] = useState([]);
@@ -52,50 +53,44 @@ export default function AllGames() {
   };
 
   const renderCard = (game) => (
-    <div
-      key={game._id}
-      style={{ marginBottom: 15, border: "1px solid #ccc", padding: 10 }}
-    >
+    <div className="game-card" key={game._id}>
       <p>
-        <strong>Game&nbsp;ID:</strong> {game._id}
+        <strong>Game ID:</strong> {game._id}
       </p>
-
-      <p>
+      <p className="status">
         <strong>Status:</strong> {game.status}
         {game.status === "Completed" && game.winner && (
-          <>
-            {" "}
-            — <em>Winner: {game.winner}</em>
-          </>
+          <span className="winner">— Winner: {game.winner}</span>
         )}
       </p>
-
       <p>
-        <strong>Player&nbsp;1:</strong> {game.player1?.username || "TBD"}
+        <strong>Player 1:</strong> {game.player1?.username || "TBD"}
       </p>
       <p>
-        <strong>Player&nbsp;2:</strong> {game.player2?.username || "TBD"}
+        <strong>Player 2:</strong> {game.player2?.username || "TBD"}
       </p>
-
-      {game.status === "Open" && !game.player2 && (
-        <>
-          {currentUser && currentUser.id === game.player1?.id ? (
-            <span style={{ marginLeft: 10, fontStyle: "italic" }}>
-              You cannot join the room you created. Waiting for an opponent…
-            </span>
-          ) : (
-            <button style={{ marginLeft: 10 }} onClick={() => handleJoin(game)}>
-              Join
-            </button>
-          )}
-        </>
-      )}
-
+      {game.status === "Open" &&
+        !game.player2 &&
+        (currentUser && currentUser.id === game.player1?.id ? (
+          <span className="waiting-text">
+            You cannot join the room you created. Waiting for an opponent…
+          </span>
+        ) : (
+          <button
+            className="button button-join"
+            onClick={() => handleJoin(game)}
+          >
+            Join
+          </button>
+        ))}
       {game.status === "Active" &&
         currentUser &&
         (currentUser.id === game.player1?.id ||
           currentUser.id === game.player2?.id) && (
-          <button style={{ marginLeft: 10 }} onClick={() => handleJoin(game)}>
+          <button
+            className="button button-resume"
+            onClick={() => handleJoin(game)}
+          >
             Resume
           </button>
         )}
@@ -134,7 +129,7 @@ export default function AllGames() {
 
   const Section = ({ title, list }) =>
     list.length > 0 && (
-      <section style={{ marginBottom: 30 }}>
+      <section className="allgames-section">
         <h3>{title}</h3>
         {list.map(renderCard)}
       </section>
@@ -143,9 +138,8 @@ export default function AllGames() {
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="allgames-container">
       <h2>All Games</h2>
-
       {currentUser ? (
         <>
           <Section title="Open Games" list={cat.openGames} />
