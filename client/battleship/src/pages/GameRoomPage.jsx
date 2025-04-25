@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Board from "../components/Board";
 
 export default function GamePage() {
-  const { gameId } = useParams(); 
+  const { gameId } = useParams();
   const [game, setGame] = useState(null);
   const [error, setError] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const pollRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -66,13 +67,55 @@ export default function GamePage() {
     fetchGame();
   }, [gameId]);
 
+  const fetchLatestGame = async () => {
+    try {
+      const res = await fetch(`/api/games/${gameId}`, {
+        credentials: "include",
+      });
+      if (res.ok) setGame(await res.json());
+    } catch (e) {
+      console.error("Polling error:", e);
+    }
+  };
+
+  // Calculate these values before the next useEffect
+  const isPlayer1 =
+    currentUser && game ? game?.player1?.id === currentUser?.id : false;
+  const myBoard = isPlayer1 ? game?.board1 : game?.board2;
+  const opponentBoard = isPlayer1 ? game?.board2 : game?.board1;
+  const myTurn = game
+    ? (isPlayer1 && game.turn === "player1") ||
+      (!isPlayer1 && game.turn === "player2")
+    : false;
+
+  useEffect(() => {
+    if (!game || game.status !== "Active") {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+      return;
+    }
+
+    // We poll ONLY while waiting for opponent's move
+    if (!myTurn && !pollRef.current) {
+      pollRef.current = setInterval(fetchLatestGame, 2500); // 2.5 s
+    }
+
+    // Stop polling once it becomes my turn
+    if (myTurn && pollRef.current) {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+    }
+
+    // Cleanup on unmount
+    return () => {
+      clearInterval(pollRef.current);
+      pollRef.current = null;
+    };
+  }, [game, myTurn]);
+
+  // Only have these conditions once, after all hooks
   if (error) return <div>Error: {error}</div>;
   if (!game || !currentUser) return <div>Loading...</div>;
-
-  const isPlayer1 = game.player1?.id === currentUser.id;
-  const myBoard = isPlayer1 ? game.board1 : game.board2;
-  const opponentBoard = isPlayer1 ? game.board2 : game.board1;
-  const myTurn = (isPlayer1 && game.turn === "player1") || (!isPlayer1 && game.turn === "player2");
 
   const handleAttack = async (row, col) => {
     if (!myTurn) {
@@ -96,6 +139,10 @@ export default function GamePage() {
       const updatedGame = await res.json();
       setGame(updatedGame);
 
+      if (updatedGame.status === "Active") {
+        fetchLatestGame();
+      }
+
       if (updatedGame.status === "Completed") {
         alert(`${updatedGame.winner} wins!`);
       }
@@ -104,7 +151,6 @@ export default function GamePage() {
       setError(err.message);
     }
   };
-  
 
   return (
     <div>
@@ -114,38 +160,24 @@ export default function GamePage() {
       <p>Winner: {game.winner || "None yet"}</p>
 
       <div style={{ display: "flex", gap: "40px" }}>
-        {/* <Board
-          board={opponentBoard}
-          title="Opponent's Board"
-          isOwnBoard={false}
-          onCellClick={handleAttack}
-          disabled={!myTurn || game.status !== "Active"}
-        />
-        <Board
-          board={myBoard}
-          title="Your Board"
-          isOwnBoard={true}
-          disabled={true}
-        /> */}
         {opponentBoard && Array.isArray(opponentBoard) && (
-            <Board
-                board={opponentBoard}
-                title="Opponent's Board"
-                isOwnBoard={false}
-                onCellClick={handleAttack}
-                disabled={!myTurn || game.status !== "Active"}
-            />
+          <Board
+            board={opponentBoard}
+            title="Opponent's Board"
+            isOwnBoard={false}
+            onCellClick={handleAttack}
+            disabled={!myTurn || game.status !== "Active"}
+          />
         )}
         {myBoard && Array.isArray(myBoard) && (
-            <Board
-                board={myBoard}
-                title="Your Board"
-                isOwnBoard={true}
-                disabled={true}
-            />
+          <Board
+            board={myBoard}
+            title="Your Board"
+            isOwnBoard={true}
+            disabled={true}
+          />
         )}
       </div>
     </div>
   );
 }
-
