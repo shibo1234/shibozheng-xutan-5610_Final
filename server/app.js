@@ -7,6 +7,7 @@ require("dotenv").config();
 
 const authRoutes = require("./routes/auth");
 const gameRoutes = require("./routes/game");
+const gamesRankRoutes = require("./routes/gamesRank");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -17,11 +18,11 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => console.log(" MongoDB connected"))
-    .catch((err) => console.error(" MongoDB connection error:", err));
-  
+  .catch((err) => console.error(" MongoDB connection error:", err));
+
 app.use(
   cors({
-    origin: "http://localhost:5173", 
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -41,17 +42,15 @@ app.use(
 
 app.use("/api", authRoutes);
 app.use("/api/games", gameRoutes);
+app.use("/api/gamesRank", gamesRankRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server running");
 });
 
 app.get("/api/test", (req, res) => {
-    res.send("Backend is working!");
+  res.send("Backend is working!");
 });
-
-
-  
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

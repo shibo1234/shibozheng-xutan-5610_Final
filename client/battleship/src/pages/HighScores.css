@@ -1,0 +1,55 @@
+/* ===== Layout wrappers ===== */
+.scores-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #0c70d5;
+  font-family: system-ui, sans-serif;
+}
+
+/* ===== Main content ===== */
+.scores-content h2 {
+  margin-top: 24px;
+  text-align: center;
+  color: black;
+}
+
+/* ===== Table ===== */
+.scores-table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.scores-table th,
+.scores-table td {
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.scores-table th {
+  background: #00264d;
+}
+
+/* Row striping */
+.scores-table tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Highlight current user */
+.highlight {
+  background: rgba(255, 255, 0, 0.25);
+}
+
+/* ===== Return button ===== */
+.btn-return {
+  display: flex;
+  justify-content: center;
+  margin: 30px auto 0;
+  padding: 8px 16px;
+  background: #00264d;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}
