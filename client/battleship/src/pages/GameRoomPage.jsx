@@ -95,11 +95,16 @@ export default function GamePage() {
 
       const updatedGame = await res.json();
       setGame(updatedGame);
+
+      if (updatedGame.status === "Completed") {
+        alert(`${updatedGame.winner} wins!`);
+      }
     } catch (err) {
       console.error("Attack error:", err);
       setError(err.message);
     }
   };
+  
 
   return (
     <div>
@@ -109,7 +114,7 @@ export default function GamePage() {
       <p>Winner: {game.winner || "None yet"}</p>
 
       <div style={{ display: "flex", gap: "40px" }}>
-        <Board
+        {/* <Board
           board={opponentBoard}
           title="Opponent's Board"
           isOwnBoard={false}
@@ -121,7 +126,24 @@ export default function GamePage() {
           title="Your Board"
           isOwnBoard={true}
           disabled={true}
-        />
+        /> */}
+        {opponentBoard && Array.isArray(opponentBoard) && (
+            <Board
+                board={opponentBoard}
+                title="Opponent's Board"
+                isOwnBoard={false}
+                onCellClick={handleAttack}
+                disabled={!myTurn || game.status !== "Active"}
+            />
+        )}
+        {myBoard && Array.isArray(myBoard) && (
+            <Board
+                board={myBoard}
+                title="Your Board"
+                isOwnBoard={true}
+                disabled={true}
+            />
+        )}
       </div>
     </div>
   );
