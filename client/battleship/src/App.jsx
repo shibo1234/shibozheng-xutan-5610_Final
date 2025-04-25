@@ -8,7 +8,8 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import AllGames from "./pages/AllGames";
 import HighScores from "./pages/HighScores";
-import NewGame from "./pages/GamePage";
+import NewGame from "./pages/NewGamePage";
+import GameRoomPage from "./pages/GameRoomPage";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -35,6 +36,7 @@ function App() {
         <Route path="/games" element={<AllGames />} />
         <Route path="/high-scores" element={<HighScores />} />
         <Route path="/game/new" element={<NewGame />} />
+        <Route path="/game/:gameId" element={<GameRoomPage />} />
       </Routes>
     </div>
   );

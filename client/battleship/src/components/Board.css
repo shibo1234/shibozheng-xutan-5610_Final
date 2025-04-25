@@ -1,0 +1,28 @@
+.board {
+    display: inline-block;
+    margin: 10px;
+}
+  
+.board-row {
+    display: flex;
+}
+  
+.cell {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #888;
+    background-color: #eee;
+    cursor: pointer;
+}
+  
+.cell.ship {
+    background-color: #ccc;
+}
+  
+.cell.hit {
+    background-color: red;
+}
+  
+.cell.miss {
+    background-color: lightblue;
+}

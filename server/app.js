@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 require("dotenv").config();
 
 const authRoutes = require("./routes/auth");
+const gameRoutes = require("./routes/game");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -39,6 +40,7 @@ app.use(
 );
 
 app.use("/api", authRoutes);
+app.use("/api/games", gameRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server running");
@@ -47,6 +49,8 @@ app.get("/", (req, res) => {
 app.get("/api/test", (req, res) => {
     res.send("Backend is working!");
 });
+
+
   
 
 app.listen(PORT, () => {
