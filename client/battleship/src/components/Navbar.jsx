@@ -1,9 +1,10 @@
-import { Link, useNavigate } from "react-router-dom";
-import "./Navbar.css"; 
 import React from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import "./Navbar.css";
 
 export default function NavBar({ currentUser, onLogout }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogout = async () => {
     try {
@@ -12,7 +13,7 @@ export default function NavBar({ currentUser, onLogout }) {
         credentials: "include",
       });
       if (res.ok) {
-        onLogout(); 
+        onLogout();
         navigate("/");
       }
     } catch (err) {
@@ -20,13 +21,31 @@ export default function NavBar({ currentUser, onLogout }) {
     }
   };
 
+  const handleLinkClick = (e, to) => {
+    if (location.pathname === to) {
+      e.preventDefault();
+      window.location.reload();
+    }
+  };
+
   return (
     <nav className="navbar">
       <div className="navbar-left">
-        <Link to="/">Home</Link>
-        <Link to="/games">All Games</Link>
-        <Link to="/game/new">New Game</Link>
-        <Link to="/high-scores">High Scores</Link>
+        <Link to="/" onClick={(e) => handleLinkClick(e, "/")}>
+          Home
+        </Link>
+        <Link to="/games" onClick={(e) => handleLinkClick(e, "/games")}>
+          All Games
+        </Link>
+        <Link to="/game/new" onClick={(e) => handleLinkClick(e, "/game/new")}>
+          New Game
+        </Link>
+        <Link
+          to="/high-scores"
+          onClick={(e) => handleLinkClick(e, "/high-scores")}
+        >
+          High Scores
+        </Link>
       </div>
 
       <div className="navbar-right">
@@ -37,13 +56,18 @@ export default function NavBar({ currentUser, onLogout }) {
           </div>
         ) : (
           <>
-            <Link to="/login">Login</Link>
-            <Link to="/register">Register</Link>
+            <Link to="/login" onClick={(e) => handleLinkClick(e, "/login")}>
+              Login
+            </Link>
+            <Link
+              to="/register"
+              onClick={(e) => handleLinkClick(e, "/register")}
+            >
+              Register
+            </Link>
           </>
         )}
       </div>
     </nav>
   );
 }
-
-
