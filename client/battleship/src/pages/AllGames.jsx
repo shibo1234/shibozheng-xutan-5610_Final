@@ -10,11 +10,9 @@ export default function AllGames() {
   useEffect(() => {
     (async () => {
       try {
-        // who am I?
         const meRes = await fetch("/api/me", { credentials: "include" });
-        if (meRes.ok) setCurrentUser(await meRes.json()); // { id, username … }
+        if (meRes.ok) setCurrentUser(await meRes.json());
 
-        // list of games
         const gamesRes = await fetch("/api/games", { credentials: "include" });
         if (!gamesRes.ok) throw new Error("Failed to fetch games");
         setGames(await gamesRes.json());
@@ -27,6 +25,14 @@ export default function AllGames() {
 
   const handleJoin = async (game) => {
     if (!currentUser) return navigate("/login");
+
+    if (
+      game.status === "Active" &&
+      (currentUser.id === game.player1?.id ||
+        currentUser.id === game.player2?.id)
+    ) {
+      return navigate(`/game/${game._id}`);
+    }
 
     if (currentUser.id === game.player1?.id) {
       alert("You created this game. Copy the link and send it to a friend!");
@@ -85,6 +91,18 @@ export default function AllGames() {
               )}
             </>
           )}
+
+          {game.status === "Active" &&
+            currentUser &&
+            (currentUser.id === game.player1?.id ||
+              currentUser.id === game.player2?.id) && (
+              <button
+                style={{ marginLeft: 10 }}
+                onClick={() => handleJoin(game)}
+              >
+                Resume
+              </button>
+            )}
         </div>
       ))}
     </div>
