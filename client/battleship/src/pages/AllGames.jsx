@@ -67,7 +67,14 @@ export default function AllGames() {
           </p>
           <p>
             <strong>Status:</strong> {game.status}
+            {game.status === "Completed" && game.winner && (
+              <>
+                {" "}
+                — <em>Winner: {game.winner}</em>
+              </>
+            )}
           </p>
+
           <p>
             <strong>Player 1:</strong> {game.player1?.username || "TBD"}
           </p>
