@@ -52,6 +52,13 @@ app.get("/api/test", (req, res) => {
   res.send("Backend is working!");
 });
 
+const frontendDir = path.join(__dirname, "..", "battleship-game", "dist");
+app.use(express.static(frontendDir));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendDir, "index.html"));
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
