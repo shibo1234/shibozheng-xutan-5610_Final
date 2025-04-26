@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "./rules.css";
+import "./Rules.css";
 
 export default function Rules() {
   const navigate = useNavigate();
