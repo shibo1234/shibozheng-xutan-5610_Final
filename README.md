@@ -65,3 +65,9 @@ We assumed:
 
 - Idea discussion and planning: ~4 hours (Lots of aggre and disagree)
 - Individual coding and debugging: ~25 hours per team member
+
+---
+
+Reference:
+Old Repo Before Refactoring: [GitHub Repo](https://github.com/shibo1234/5610_Final_Project)
+Old Render Site: [Live App on Render](https://shibozheng-xutan-project3.onrender.com)
