@@ -10,6 +10,7 @@ const gameRoutes = require("./routes/game");
 const gamesRankRoutes = require("./routes/gamesRank");
 
 const app = express();
+const path = require("path");
 const PORT = process.env.PORT || 3001;
 
 mongoose
