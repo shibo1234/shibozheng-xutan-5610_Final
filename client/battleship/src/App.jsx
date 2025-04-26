@@ -10,6 +10,7 @@ import AllGames from "./pages/AllGames";
 import HighScores from "./pages/HighScores";
 import NewGame from "./pages/NewGamePage";
 import GameRoomPage from "./pages/GameRoomPage";
+import Rules from "./pages/Rules";
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null);
@@ -31,16 +32,22 @@ function App() {
       <NavBar currentUser={currentUser} onLogout={() => setCurrentUser(null)} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login onLogin={setCurrentUser} currentUser={currentUser} />} />
-        <Route path="/register" element={<Register currentUser={currentUser} />} />
+        <Route
+          path="/login"
+          element={<Login onLogin={setCurrentUser} currentUser={currentUser} />}
+        />
+        <Route
+          path="/register"
+          element={<Register currentUser={currentUser} />}
+        />
         <Route path="/games" element={<AllGames />} />
         <Route path="/high-scores" element={<HighScores />} />
         <Route path="/game/new" element={<NewGame />} />
         <Route path="/game/:gameId" element={<GameRoomPage />} />
+        <Route path="/rules" element={<Rules />} />
       </Routes>
     </div>
   );
 }
 
 export default App;
-
