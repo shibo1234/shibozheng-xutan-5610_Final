@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaGamepad, FaBook, FaTrophy } from "react-icons/fa";
 import myImage from "../images/NPIXTXSIUNHV3ACRPMPSP6TKGM.png.avif";
-import "./home.css";
+import "./Home.css";
 
 export default function Home() {
   return (
