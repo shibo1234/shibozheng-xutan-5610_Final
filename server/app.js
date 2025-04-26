@@ -52,7 +52,7 @@ app.get("/api/test", (req, res) => {
   res.send("Backend is working!");
 });
 
-const frontendDir = path.join(__dirname, "..", "battleship-game", "dist");
+const frontendDir = path.join(__dirname, "..", "client/battleship", "dist");
 app.use(express.static(frontendDir));
 
 app.get("*", (req, res) => {
